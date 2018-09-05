@@ -6,9 +6,23 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.lang.ref.Reference;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PaintView extends View {
     private Bitmap bitmap;
@@ -16,6 +30,11 @@ public class PaintView extends View {
     private Path path;
     private Paint bitmapPaint;
     private Paint paint;
+    private Context context;
+    private AttributeSet attrs;
+    private DatabaseReference reference;
+    static public String roomName;
+    private Map<String, Path> paths = new HashMap<String, Path>();
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,7 +50,43 @@ public class PaintView extends View {
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(9);
+        new android.os.Handler().postDelayed(
+            new Runnable() {
+                public void run() {
+                    reference = FirebaseDatabase.getInstance().getReference().child(roomName);
+                    mListener = reference.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                            String name = dataSnapshot.getKey();
 
+                            /*
+                                QUAND ON RECOIS UN PATH
+                            */
+                        }
+
+                        @Override
+                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        }
+
+                        @Override
+                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                        }
+
+                        @Override
+                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            },
+300);
     }
 
     @Override
@@ -39,6 +94,7 @@ public class PaintView extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
+
     }
 
     @Override
@@ -70,7 +126,14 @@ public class PaintView extends View {
     private void touchUp() {
         path.lineTo(mX, mY);
         canvas.drawPath(path, paint);
+        //savePath(path);
         path.reset();
+    }
+
+    ChildEventListener mListener;
+    private void savePath(Path path) {
+        paths.put("path1", path);
+
     }
 
     @Override

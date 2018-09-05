@@ -35,6 +35,8 @@ public class ChatroomActivity extends AppCompatActivity {
     DatabaseReference reference;
     PaintView paintView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,8 @@ public class ChatroomActivity extends AppCompatActivity {
 
         roomName = getIntent().getExtras().get("room_name").toString();
         userName = getIntent().getExtras().get("user_name").toString();
+
+        PaintView.roomName = roomName;
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -73,7 +77,6 @@ public class ChatroomActivity extends AppCompatActivity {
                   inputMessage.setText("");
               }
           });
-
 
         reference.addChildEventListener(new ChildEventListener() {
             @Override
