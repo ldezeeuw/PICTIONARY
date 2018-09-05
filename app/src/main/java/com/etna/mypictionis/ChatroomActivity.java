@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class ChatroomActivity extends AppCompatActivity {
-
     ListView listChatRooms;
     TextView message;
     EditText inputMessage;
@@ -35,7 +34,12 @@ public class ChatroomActivity extends AppCompatActivity {
     DatabaseReference reference;
     PaintView paintView;
 
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        roomName = getIntent().getExtras().get("room_name").toString();
+        PaintView.roomName = roomName;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,7 @@ public class ChatroomActivity extends AppCompatActivity {
         roomName = getIntent().getExtras().get("room_name").toString();
         userName = getIntent().getExtras().get("user_name").toString();
 
-        PaintView.roomName = roomName;
+        // PaintView.roomName = roomName;
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,9 +62,7 @@ public class ChatroomActivity extends AppCompatActivity {
         }
 
         reference = FirebaseDatabase.getInstance().getReference().child(roomName);
-
         sendButton = (Button) findViewById(R.id.send_button);
-
         sendButton.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
@@ -117,18 +119,10 @@ public class ChatroomActivity extends AppCompatActivity {
 
         if (iterator != null && iterator.hasNext()) {
             next = iterator.next();
-            if (next != null) {
             data = ((DataSnapshot) next).getValue();
-                String str = data.toString();
+            String str = data.toString();
 
-/*        while(iterator.hasNext()) {
-            room = ((DataSnapshot)iterator.next()).getValue().toString();
-            msg = ((DataSnapshot)iterator.next()).getValue().toString();
-            //stringTest = inputMessage.getText().toString();
-
-        }*/
-                message.append(userName + ": " + str + "\n");
-            }
+            message.append(userName + ": " + str + "\n");
         }
     }
 

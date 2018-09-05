@@ -54,44 +54,70 @@ public class PaintView extends View {
         new android.os.Handler().postDelayed(
             new Runnable() {
                 public void run() {
-                    /*
+                    Log.d("ROOM_NAME_NAMEN", roomName);
                     reference = FirebaseDatabase.getInstance().getReference().child(roomName);
-                    mListener = reference.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                            /*
-                            String key = dataSnapshot.getKey();
-                            // dataSnapshot.getChildren();
-                            Log.d("KEY OF THE KEYKEY", key);
-                            /*
-                             * QUAND ON RECOIS UN PATH
-                             *
-                        }
+                    if (reference != null) {
+                        Log.d("ROOM_NAN AFTER NULL", roomName);
+                        mListener = reference.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                            }
 
-                        @Override
-                        public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                String key = dataSnapshot.getKey();
+                                String value = dataSnapshot.getValue().toString();
 
-                        }
+                                Log.d("KEY OF THE CHANGED", key);
 
-                        @Override
-                        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                                switch (key) {
+                                    case "touchStart":
+                                        float touchStartx = Float.parseFloat(value.split("/")[0]);
+                                        float touchStarty = Float.parseFloat(value.split("/")[1]);
+                                        path.reset();
+                                        path.moveTo(touchStartx, touchStarty);
+                                    break;
 
-                        }
+                                    case "touchMove":
+                                        float touchMovemX = Float.parseFloat(value.split("/")[0]);
+                                        float touchMovemY = Float.parseFloat(value.split("/")[1]);
+                                        float touchMovex = Float.parseFloat(value.split("/")[2]);
+                                        float touchMovey = Float.parseFloat(value.split("/")[3]);
 
-                        @Override
-                        public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                        path.quadTo(touchMovemX, touchMovemY, (touchMovex + touchMovemX) / 2, (touchMovey + touchMovemY) / 2);
+                                    break;
 
-                        }
+                                    case "touchUp":
+                                        float touchUpmX = Float.parseFloat(value.split("/")[0]);
+                                        float touchUpmY = Float.parseFloat(value.split("/")[1]);
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        path.lineTo(touchUpmX, touchUpmY);
+                                        canvas.drawPath(path, paint);
+                                        path.reset();
+                                    break;
+                                }
 
-                        }
-                    });
-                    */
+                            }
+
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+                    }
                 }
-            },
-300);
+            }
+        , 900);
     }
 
     @Override
@@ -110,32 +136,6 @@ public class PaintView extends View {
 
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
-
-    /*
-    public class Position {
-        public float x;
-        public float y;
-
-        public float quadX;
-        public float quadY;
-        public float quadX2;
-        public float quadY2;
-
-        public Position(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-
-        public Position(float quadX, float quadY, float quadX2, float quadY2)
-        {
-            this.quadX = quadX;
-            this.quadY = quadY;
-            this.quadX2 = quadX2;
-            this.quadY2 = quadY2;
-        }
-    }
-    */
 
     private void touchStart(float x, float y) {
         Map<String, Object> map = new HashMap<String, Object>();
