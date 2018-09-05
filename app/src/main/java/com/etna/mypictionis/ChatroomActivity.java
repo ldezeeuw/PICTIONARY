@@ -109,10 +109,17 @@ public class ChatroomActivity extends AppCompatActivity {
 
 
     public void append_chat(DataSnapshot dataSnapshot) {
+        Object data;
         String msg ="";
         String room = "";
-
+        Object next;
         Iterator iterator = dataSnapshot.getChildren().iterator();
+
+        if (iterator != null && iterator.hasNext()) {
+            next = iterator.next();
+            if (next != null) {
+            data = ((DataSnapshot) next).getValue();
+                String str = data.toString();
 
 /*        while(iterator.hasNext()) {
             room = ((DataSnapshot)iterator.next()).getValue().toString();
@@ -120,7 +127,9 @@ public class ChatroomActivity extends AppCompatActivity {
             //stringTest = inputMessage.getText().toString();
 
         }*/
-        message.append(userName + ": " + ((DataSnapshot)iterator.next()).getValue().toString() + "\n");
+                message.append(userName + ": " + str + "\n");
+            }
+        }
     }
 
     @Override

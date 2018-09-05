@@ -35,6 +35,7 @@ public class PaintView extends View {
     private DatabaseReference reference;
     static public String roomName;
     private Map<String, Path> paths = new HashMap<String, Path>();
+    public ChildEventListener mListener;
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -53,15 +54,18 @@ public class PaintView extends View {
         new android.os.Handler().postDelayed(
             new Runnable() {
                 public void run() {
+                    /*
                     reference = FirebaseDatabase.getInstance().getReference().child(roomName);
                     mListener = reference.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
-                            String name = dataSnapshot.getKey();
-
                             /*
-                                QUAND ON RECOIS UN PATH
-                            */
+                            String key = dataSnapshot.getKey();
+                            // dataSnapshot.getChildren();
+                            Log.d("KEY OF THE KEYKEY", key);
+                            /*
+                             * QUAND ON RECOIS UN PATH
+                             *
                         }
 
                         @Override
@@ -84,6 +88,7 @@ public class PaintView extends View {
 
                         }
                     });
+                    */
                 }
             },
 300);
@@ -106,34 +111,74 @@ public class PaintView extends View {
     private float mX, mY;
     private static final float TOUCH_TOLERANCE = 4;
 
+    /*
+    public class Position {
+        public float x;
+        public float y;
+
+        public float quadX;
+        public float quadY;
+        public float quadX2;
+        public float quadY2;
+
+        public Position(float x, float y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
+        public Position(float quadX, float quadY, float quadX2, float quadY2)
+        {
+            this.quadX = quadX;
+            this.quadY = quadY;
+            this.quadX2 = quadX2;
+            this.quadY2 = quadY2;
+        }
+    }
+    */
+
     private void touchStart(float x, float y) {
-        path.reset();
-        path.moveTo(x, y);
+        Map<String, Object> map = new HashMap<String, Object>();
+        String pos = Float.toString(x) + "/" + Float.toString(y);
+        map.put("touchStart", pos);
+        reference.updateChildren(map);
         mX = x;
         mY = y;
+        /*
+        path.reset();
+        path.moveTo(x, y);
+        */
     }
 
     private void touchMove(float x, float y) {
         float dx = Math.abs(x - mX);
         float dy = Math.abs(y - mY);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+
+
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
+            // path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
+            // mX, mY, (x + mX) / 2, (y + mY) / 2)
+            float posX = (x + mX) / 2;
+            float posY = (y + mY) / 2;
+
+            String pos = Float.toString(mX) + "/" + Float.toString(mY) + "/" + Float.toString(posX) + "/" + Float.toString(posY);
+            map.put("touchMove", pos);
+            reference.updateChildren(map);
+
             mX = x;
             mY = y;
         }
     }
 
     private void touchUp() {
-        path.lineTo(mX, mY);
-        canvas.drawPath(path, paint);
-        //savePath(path);
-        path.reset();
-    }
-
-    ChildEventListener mListener;
-    private void savePath(Path path) {
-        paths.put("path1", path);
-
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("touchUp", Float.toString(mX) + "/" +  Float.toString(mY));
+        reference.updateChildren(map);
+        // path.lineTo(mX, mY);
+        // canvas.drawPath(path, paint);
+        // path.reset();
     }
 
     @Override
