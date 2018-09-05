@@ -6,21 +6,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.lang.ref.Reference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,11 +25,8 @@ public class PaintView extends View {
     private Path path;
     private Paint bitmapPaint;
     private Paint paint;
-    private Context context;
-    private AttributeSet attrs;
     private DatabaseReference reference;
     static public String roomName;
-    private Map<String, Path> paths = new HashMap<String, Path>();
     public ChildEventListener mListener;
 
     public PaintView(Context context, AttributeSet attrs) {
@@ -51,13 +43,12 @@ public class PaintView extends View {
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStrokeWidth(9);
+
         new android.os.Handler().postDelayed(
             new Runnable() {
                 public void run() {
-                    Log.d("ROOM_NAME_NAMEN", roomName);
                     reference = FirebaseDatabase.getInstance().getReference().child(roomName);
                     if (reference != null) {
-                        Log.d("ROOM_NAN AFTER NULL", roomName);
                         mListener = reference.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
@@ -67,8 +58,6 @@ public class PaintView extends View {
                             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                                 String key = dataSnapshot.getKey();
                                 String value = dataSnapshot.getValue().toString();
-
-                                Log.d("KEY OF THE CHANGED", key);
 
                                 switch (key) {
                                     case "touchStart":
@@ -144,10 +133,6 @@ public class PaintView extends View {
         reference.updateChildren(map);
         mX = x;
         mY = y;
-        /*
-        path.reset();
-        path.moveTo(x, y);
-        */
     }
 
     private void touchMove(float x, float y) {
@@ -156,10 +141,7 @@ public class PaintView extends View {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-
         if (dx >= TOUCH_TOLERANCE || dy >= TOUCH_TOLERANCE) {
-            // path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
-            // mX, mY, (x + mX) / 2, (y + mY) / 2)
             float posX = (x + mX) / 2;
             float posY = (y + mY) / 2;
 
@@ -176,9 +158,6 @@ public class PaintView extends View {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("touchUp", Float.toString(mX) + "/" +  Float.toString(mY));
         reference.updateChildren(map);
-        // path.lineTo(mX, mY);
-        // canvas.drawPath(path, paint);
-        // path.reset();
     }
 
     @Override

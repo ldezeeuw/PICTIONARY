@@ -54,8 +54,6 @@ public class ChatroomActivity extends AppCompatActivity {
         roomName = getIntent().getExtras().get("room_name").toString();
         userName = getIntent().getExtras().get("user_name").toString();
 
-        // PaintView.roomName = roomName;
-
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -111,19 +109,17 @@ public class ChatroomActivity extends AppCompatActivity {
 
 
     public void append_chat(DataSnapshot dataSnapshot) {
-        Object data;
         String msg ="";
-        String room = "";
-        Object next;
+        String user = "";
+
         Iterator iterator = dataSnapshot.getChildren().iterator();
 
-        if (iterator != null && iterator.hasNext()) {
-            next = iterator.next();
-            data = ((DataSnapshot) next).getValue();
-            String str = data.toString();
-
-            message.append(userName + ": " + str + "\n");
+        while(iterator.hasNext()) {
+            msg = ((DataSnapshot)iterator.next()).getValue().toString();
+            user = ((DataSnapshot)iterator.next()).getValue().toString();
         }
+
+        message.append(user + ": " + msg + "\n");
     }
 
     @Override
