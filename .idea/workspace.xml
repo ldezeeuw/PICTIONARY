@@ -15,14 +15,12 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/ChatroomActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/ChatroomActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/PaintView.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/PaintView.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_chatroom.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_chatroom.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -53,14 +51,14 @@
       <file leaf-file-name="ChatroomActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/ChatroomActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="88" column="13" lean-forward="false" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
+            <state relative-caret-position="297">
+              <caret line="174" column="12" lean-forward="false" selection-start-line="174" selection-start-column="12" selection-end-line="174" selection-end-column="12" />
               <folding>
-                <element signature="e#2946#2962#0" expanded="true" />
-                <element signature="e#3403#4087#0" expanded="true" />
-                <element signature="e#3555#3571#0" expanded="true" />
-                <element signature="e#3816#3832#0" expanded="true" />
-                <element signature="e#4086#4087#0" expanded="true" />
+                <element signature="e#3040#3056#0" expanded="true" />
+                <element signature="e#3497#4181#0" expanded="true" />
+                <element signature="e#3649#3665#0" expanded="true" />
+                <element signature="e#3910#3926#0" expanded="true" />
+                <element signature="e#4180#4181#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -82,8 +80,8 @@
       <file leaf-file-name="PaintView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/PaintView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="782">
-              <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+            <state relative-caret-position="106">
+              <caret line="178" column="36" lean-forward="false" selection-start-line="178" selection-start-column="36" selection-end-line="178" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#5532#5548#0" expanded="true" />
@@ -127,6 +125,8 @@
     <findStrings>
       <find>log</find>
       <find>== userName</find>
+      <find>wordToFind.length() &gt; 0</find>
+      <find>roomOwner</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2501,8 +2501,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/PaintView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="179" column="0" lean-forward="false" selection-start-line="179" selection-start-column="0" selection-end-line="179" selection-end-column="0" />
+        <state relative-caret-position="106">
+          <caret line="178" column="36" lean-forward="false" selection-start-line="178" selection-start-column="36" selection-end-line="178" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#5532#5548#0" expanded="true" />
@@ -2514,14 +2514,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/etna/mypictionis/ChatroomActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="88" column="13" lean-forward="false" selection-start-line="88" selection-start-column="13" selection-end-line="88" selection-end-column="13" />
+        <state relative-caret-position="297">
+          <caret line="174" column="12" lean-forward="false" selection-start-line="174" selection-start-column="12" selection-end-line="174" selection-end-column="12" />
           <folding>
-            <element signature="e#2946#2962#0" expanded="true" />
-            <element signature="e#3403#4087#0" expanded="true" />
-            <element signature="e#3555#3571#0" expanded="true" />
-            <element signature="e#3816#3832#0" expanded="true" />
-            <element signature="e#4086#4087#0" expanded="true" />
+            <element signature="e#3040#3056#0" expanded="true" />
+            <element signature="e#3497#4181#0" expanded="true" />
+            <element signature="e#3649#3665#0" expanded="true" />
+            <element signature="e#3910#3926#0" expanded="true" />
+            <element signature="e#4180#4181#0" expanded="true" />
           </folding>
         </state>
       </provider>

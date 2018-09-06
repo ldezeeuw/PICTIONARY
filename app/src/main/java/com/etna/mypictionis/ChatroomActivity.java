@@ -78,9 +78,10 @@ public class ChatroomActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (!roomOwner.equals(userName) && wordToFind.equals(s.toString()))
-                    Toast.makeText(ChatroomActivity.this, "You won !", Toast.LENGTH_LONG).show();
-                else if (roomOwner.equals(userName)) {
+                if (roomOwner != null && !roomOwner.equals(userName) && wordToFind != null) {
+                    if (wordToFind.equals(s.toString()))
+                        Toast.makeText(ChatroomActivity.this, "You won !", Toast.LENGTH_LONG).show();
+                } else if (roomOwner != null && roomOwner.equals(userName)) {
                     DatabaseReference referenceRoom = reference;
                     Map<String, Object> map2 = new HashMap<String, Object>();
                     map2.put("word_to_find", s.toString());
@@ -127,9 +128,10 @@ public class ChatroomActivity extends AppCompatActivity {
                     return ;
                 else if (key.equals("touchUp"))
                     return ;
-                else if (key.equals("owner"))
+                else if (key.equals("owner")) {
                     PaintView.roomOwner = dataSnapshot.getValue().toString();
-                else if (key.equals("word_to_find"))
+                    roomOwner = dataSnapshot.getValue().toString();
+                } else if (key.equals("word_to_find"))
                     wordToFind = dataSnapshot.getValue().toString();
                 else
                     append_chat(dataSnapshot);
@@ -169,8 +171,8 @@ public class ChatroomActivity extends AppCompatActivity {
             msg = ((DataSnapshot)iterator.next()).getValue().toString();
             user = ((DataSnapshot)iterator.next()).getValue().toString();
         }
-
-        message.append(user + ": " + msg + "\n");
+        if (msg.length() > 0 && user.length() > 0)
+            message.append(user + ": " + msg + "\n");
     }
 
     @Override

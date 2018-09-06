@@ -178,7 +178,7 @@ public class PaintView extends View {
         Log.d("OWNER", roomOwner);
         Log.d("USERNAME", userName);
 
-        if (roomOwner.equals(userName) && wordToFind.length() > 0) {
+        if (roomOwner.equals(userName) && wordToFind != null && wordToFind.length() > 0) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     touchStart(x, y);
