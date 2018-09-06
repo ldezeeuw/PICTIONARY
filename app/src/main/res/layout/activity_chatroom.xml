@@ -25,15 +25,15 @@
         android:layout_above="@+id/button"
         android:layout_alignParentTop="true"
         android:background="#FFF"
-        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintBottom_toTopOf="@+id/input_message"
         app:layout_constraintEnd_toStartOf="@+id/imageButton2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/button"
-        android:layout_width="55dp"
+        android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginBottom="23dp"
         android:onClick="clearCanvas"
@@ -41,7 +41,7 @@
         android:text="Delete"
         app:layout_constraintBottom_toTopOf="@+id/imageButton2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/editText"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_notification_clear_all" />
 
@@ -127,23 +127,11 @@
         app:layout_constraintTop_toBottomOf="@+id/button5"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:background="#dedede"
-        android:gravity="center"
-        android:text="Le mot a faire trouver"
-        app:layout_constraintBottom_toTopOf="@+id/canvas"
-        app:layout_constraintEnd_toStartOf="@+id/button"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageButton
-        android:onClick="exitView"
         android:id="@+id/imageButton3"
         android:layout_width="55dp"
         android:layout_height="55dp"
+        android:onClick="exitView"
         app:layout_constraintBottom_toTopOf="@+id/send_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -155,12 +143,13 @@
     <ScrollView
         android:id="@+id/listView"
         android:layout_width="314dp"
-        android:layout_height="67dp"
-        app:layout_constraintBottom_toTopOf="@+id/input_message"
+        android:layout_height="0dp"
+        android:layout_marginBottom="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/send_button"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/canvas">
+        app:layout_constraintTop_toBottomOf="@+id/editText">
 
         <TextView
             android:id="@+id/message"
@@ -185,5 +174,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="327dp"
+        android:layout_marginEnd="61dp"
+        android:layout_marginStart="53dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/listView"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

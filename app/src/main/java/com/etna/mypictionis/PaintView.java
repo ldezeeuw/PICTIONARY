@@ -9,8 +9,11 @@ import android.graphics.Path;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +33,7 @@ public class PaintView extends View {
     static public String roomOwner;
     static public String userName;
     public ChildEventListener mListener;
+    String wordToFind;
 
     public PaintView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -85,6 +89,10 @@ public class PaintView extends View {
                                         path.lineTo(touchUpmX, touchUpmY);
                                         canvas.drawPath(path, paint);
                                         path.reset();
+                                    break;
+                                    case "word_to_find":
+                                        wordToFind = value;
+                                        Log.d("VALUE TO FIND", value);
                                     break;
                                 }
 
@@ -167,7 +175,10 @@ public class PaintView extends View {
         float x = event.getX();
         float y = event.getY();
 
-        if (roomOwner == userName) {
+        Log.d("OWNER", roomOwner);
+        Log.d("USERNAME", userName);
+
+        if (roomOwner.equals(userName) && wordToFind.length() > 0) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     touchStart(x, y);

@@ -6,6 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -36,25 +39,27 @@ public class ChatroomActivity extends AppCompatActivity {
     DatabaseReference reference;
     PaintView paintView;
     String roomOwner;
+    String wordToFind;
 
     @Override
     protected void onStart() {
         super.onStart();
         roomName = getIntent().getExtras().get("room_name").toString();
         PaintView.roomName = roomName;
-        PaintView.roomOwner = roomOwner;
         PaintView.userName = userName;
     }
 
+    EditText editText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        this.paintView = (PaintView) findViewById(R.id.canvas);
+        message = (TextView) findViewById(R.id.message);
+        editText = (EditText) findViewById(R.id.editText);
+        paintView = (PaintView) findViewById(R.id.canvas);
         listChatRooms = (ListView) findViewById(R.id.listChatroom);
         inputMessage = (EditText) findViewById(R.id.input_message);
-        message = (TextView) findViewById(R.id.message);
 
         roomName = getIntent().getExtras().get("room_name").toString();
         userName = getIntent().getExtras().get("user_name").toString();
@@ -63,6 +68,31 @@ public class ChatroomActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        editText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!roomOwner.equals(userName) && wordToFind.equals(s.toString()))
+                    Toast.makeText(ChatroomActivity.this, "You won !", Toast.LENGTH_LONG).show();
+                else if (roomOwner.equals(userName)) {
+                    DatabaseReference referenceRoom = reference;
+                    Map<String, Object> map2 = new HashMap<String, Object>();
+                    map2.put("word_to_find", s.toString());
+                    referenceRoom.updateChildren(map2);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         reference = FirebaseDatabase.getInstance().getReference().child(roomName);
         sendButton = (Button) findViewById(R.id.send_button);
@@ -98,7 +128,9 @@ public class ChatroomActivity extends AppCompatActivity {
                 else if (key.equals("touchUp"))
                     return ;
                 else if (key.equals("owner"))
-                    roomOwner = dataSnapshot.getValue().toString();
+                    PaintView.roomOwner = dataSnapshot.getValue().toString();
+                else if (key.equals("word_to_find"))
+                    wordToFind = dataSnapshot.getValue().toString();
                 else
                     append_chat(dataSnapshot);
             }
@@ -153,7 +185,7 @@ public class ChatroomActivity extends AppCompatActivity {
     Intent intent;
     public void exitView(View v)
     {
-        if (roomOwner == userName) {
+        if (roomOwner.equals(userName)) {
             reference.removeValue();
             intent = new Intent(ChatroomActivity.this, WelcomeActivity.class);
             startActivity(intent);
@@ -162,7 +194,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
     public void clearCanvas(View v)
     {
-        if (roomOwner == userName) {
+        if (roomOwner.equals(userName)) {
             if (this.paintView != null)
                 this.paintView.clearCanvas();
         }
@@ -170,7 +202,7 @@ public class ChatroomActivity extends AppCompatActivity {
 
     public void selectClearBrush(View v)
     {
-        if (roomOwner == userName) {
+        if (roomOwner.equals(userName)) {
             if (this.paintView != null)
                 this.paintView.selectClearBrush();
         }
@@ -179,7 +211,7 @@ public class ChatroomActivity extends AppCompatActivity {
     public void changeColor(View v)
     {
         String value = v.getTag().toString();
-        if (roomOwner == userName) {
+        if (roomOwner.equals(userName)) {
             switch (value) {
                 case "red":
                     this.paintView.setColor(Color.RED);
