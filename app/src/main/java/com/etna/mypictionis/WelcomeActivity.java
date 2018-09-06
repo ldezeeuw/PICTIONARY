@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -115,16 +116,29 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
             }
         });
+
         // Bouton de creation de room
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent;
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put(inputChatrooms.getText().toString().trim(), "Chatroom");
                 reference.updateChildren(hashMap);
 
+
                 list.add(inputChatrooms.getText().toString().trim());
                 adapter.notifyDataSetChanged();
+
+                HashMap<String, Object> hashMap2 = new HashMap<>();
+                hashMap2.put("owner", name);
+                reference.child(inputChatrooms.getText().toString().trim()).updateChildren(hashMap2);
+
+                intent = new Intent(WelcomeActivity.this, ChatroomActivity.class);
+                intent.putExtra("room_name", inputChatrooms.getText().toString().trim());
+                intent.putExtra("user_name", name);
+
+                startActivity(intent);
             }
         });
     }

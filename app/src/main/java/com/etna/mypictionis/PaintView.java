@@ -27,6 +27,8 @@ public class PaintView extends View {
     private Paint paint;
     private DatabaseReference reference;
     static public String roomName;
+    static public String roomOwner;
+    static public String userName;
     public ChildEventListener mListener;
 
     public PaintView(Context context, AttributeSet attrs) {
@@ -165,19 +167,21 @@ public class PaintView extends View {
         float x = event.getX();
         float y = event.getY();
 
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touchStart(x, y);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                touchMove(x, y);
-                invalidate();
-                break;
-            case MotionEvent.ACTION_UP:
-                touchUp();
-                invalidate();
-                break;
+        if (roomOwner == userName) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touchStart(x, y);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    touchMove(x, y);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    touchUp();
+                    invalidate();
+                    break;
+            }
         }
         return true;
     }

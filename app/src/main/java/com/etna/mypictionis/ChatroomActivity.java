@@ -1,10 +1,12 @@
 package com.etna.mypictionis;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -33,12 +35,15 @@ public class ChatroomActivity extends AppCompatActivity {
 
     DatabaseReference reference;
     PaintView paintView;
+    String roomOwner;
 
     @Override
     protected void onStart() {
         super.onStart();
         roomName = getIntent().getExtras().get("room_name").toString();
         PaintView.roomName = roomName;
+        PaintView.roomOwner = roomOwner;
+        PaintView.userName = userName;
     }
 
     @Override
@@ -78,10 +83,24 @@ public class ChatroomActivity extends AppCompatActivity {
               }
           });
 
+
         reference.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                append_chat(dataSnapshot);
+                String key;
+
+                key = dataSnapshot.getKey();
+
+                if (key.equals("touchStart"))
+                    return ;
+                else if (key.equals("touchMove"))
+                    return ;
+                else if (key.equals("touchUp"))
+                    return ;
+                else if (key.equals("owner"))
+                    roomOwner = dataSnapshot.getValue().toString();
+                else
+                    append_chat(dataSnapshot);
             }
 
             @Override
@@ -131,38 +150,53 @@ public class ChatroomActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    Intent intent;
+    public void exitView(View v)
+    {
+        if (roomOwner == userName) {
+            reference.removeValue();
+            intent = new Intent(ChatroomActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+        }
+    }
+
     public void clearCanvas(View v)
     {
-        if (this.paintView != null)
-            this.paintView.clearCanvas();
+        if (roomOwner == userName) {
+            if (this.paintView != null)
+                this.paintView.clearCanvas();
+        }
     }
 
     public void selectClearBrush(View v)
     {
-        if (this.paintView != null)
-            this.paintView.selectClearBrush();
+        if (roomOwner == userName) {
+            if (this.paintView != null)
+                this.paintView.selectClearBrush();
+        }
     }
 
     public void changeColor(View v)
     {
         String value = v.getTag().toString();
-
-        switch (value) {
-            case "red":
-                this.paintView.setColor(Color.RED);
-                break;
-            case "blue":
-                this.paintView.setColor(Color.BLUE);
-                break;
-            case "green":
-                this.paintView.setColor(Color.GREEN);
-                break;
-            case "yellow":
-                this.paintView.setColor(Color.YELLOW);
-                break;
-            case "black":
-                this.paintView.setColor(Color.BLACK);
-                break;
+        if (roomOwner == userName) {
+            switch (value) {
+                case "red":
+                    this.paintView.setColor(Color.RED);
+                    break;
+                case "blue":
+                    this.paintView.setColor(Color.BLUE);
+                    break;
+                case "green":
+                    this.paintView.setColor(Color.GREEN);
+                    break;
+                case "yellow":
+                    this.paintView.setColor(Color.YELLOW);
+                    break;
+                case "black":
+                    this.paintView.setColor(Color.BLACK);
+                    break;
+            }
         }
     }
 }
