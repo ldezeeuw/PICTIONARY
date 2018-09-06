@@ -9,7 +9,6 @@ import android.graphics.Path;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -92,7 +91,6 @@ public class PaintView extends View {
                                     break;
                                     case "word_to_find":
                                         wordToFind = value;
-                                        Log.d("VALUE TO FIND", value);
                                     break;
                                 }
 
@@ -174,9 +172,6 @@ public class PaintView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
         float y = event.getY();
-
-        Log.d("OWNER", roomOwner);
-        Log.d("USERNAME", userName);
 
         if (roomOwner.equals(userName) && wordToFind != null && wordToFind.length() > 0) {
             switch (event.getAction()) {
